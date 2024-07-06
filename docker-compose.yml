@@ -1,0 +1,96 @@
+services:
+
+  user_service:
+    container_name: shop_user_service
+    build:
+      context: .
+      dockerfile: shop_user_service/Dockerfile
+    environment:
+      - DJANGO_SETTINGS_MODULE=shop_user_service.settings
+    env_file:
+      - .env
+    volumes:
+      - ./shop_user_service/:/app/
+    command: 'python manage.py runserver 0.0.0.0:8000'
+    ports:
+      - "8000:8000"
+    networks:
+      - my_network
+    depends_on:
+      - user_service_db  
+    links:
+      - user_service_db  
+
+  # product_service:
+  #   container_name: shop_product_service
+  #   build:
+  #     context: .
+  #     dockerfile: shop_product_service/Dockerfile
+  #   image: shop_product_service
+  #   volumes:
+  #     - .:/shop_product_service
+  #   command: 'python shop_product_service/manage.py runserver 0.0.0.0:8001'
+  #   ports:
+  #     - "8001:8001"
+  #   networks:
+  #     - my_network
+  #   depends_on:
+  #     - user_service
+      
+  # order_service:
+  #   container_name: shop_order_service
+  #   build:
+  #     context: .
+  #     dockerfile: shop_order_service/Dockerfile
+  #   image: shop_order_service
+  #   volumes:
+  #     - .:/shop_order_service
+  #   command: 'python shop_order_service/manage.py runserver 0.0.0.0:8002'
+  #   ports:
+  #     - "8002:8002"
+  #   networks:
+  #     - my_network
+
+  #   depends_on:
+  #     - user_service
+  #     - product_service
+
+  # payment_service:
+  #   container_name: shop_payment_service
+  #   build:
+  #     context: .
+  #     dockerfile: shop_payment_service/Dockerfile
+  #   image: shop_payment_service
+  #   environment:
+  #     - DJANGO_SETTINGS_MODULE=shop_payment_service.settings
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - .:/shop_payment_service
+  #   command: 'python shop_payment_service/manage.py runserver 0.0.0.0:8003'
+  #   ports:
+  #     - "8003:8003"
+  #   networks:
+  #     - my_network
+
+  #   depends_on:
+  #     - order_service
+
+  user_service_db:
+    image: mysql:8.0
+    container_name: user_service_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE_USER}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    command: --default-authentication-plugin=mysql_native_password  
+    ports:
+      - "3306:3306"
+    networks:
+      - my_network  
+
+networks:
+  my_network:
+    driver: bridge

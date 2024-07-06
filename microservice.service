@@ -1,0 +1,11 @@
+[Unit]
+Description=Django Project Docker Service
+After=network.target
+
+[Service]
+ExecStart=/usercode/services/start_django_project.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
