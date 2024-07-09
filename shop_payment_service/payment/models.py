@@ -9,7 +9,7 @@ class Payment(models.Model):
     payment_status = models.BooleanField(
         default=False, verbose_name='Is Paid ?')
     amount = models.DecimalField(
-        decimal_places=2, max_digits=100, verbose_name='Amount')
+        decimal_places=2, max_digits=50, verbose_name='Amount')
     currency = models.CharField(max_length=200, default='USD')
 
     class Meta:

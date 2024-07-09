@@ -94,8 +94,8 @@ DATABASES = {
         'NAME': os.environ.get('MYSQL_DATABASE_USER'),
         'USER': os.environ.get('MYSQL_USER'),
         'PASSWORD': os.environ.get('MYSQL_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST_USER', 'user_service_db'),  # Use 'db' as default from .env
-        'PORT': os.environ.get('DB_PORT', '3306'),  # Use '3306' as default from .env
+        'HOST': os.environ.get('MYSQL_DB_HOST_USER', 'user_service_db'),  # Use 'db' as default from .env
+        'PORT': os.environ.get('MYSQL_DB_PORT_USER', '3306'),  # Use '3306' as default from .env
         'OPTIONS': {
             'auth_plugin': 'mysql_native_password'
         },

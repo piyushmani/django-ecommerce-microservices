@@ -13,3 +13,4 @@ coreapi
 coreschema
 django-filter
 httpie
+mysqlclient
